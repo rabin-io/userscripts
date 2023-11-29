@@ -23,7 +23,7 @@
     const rows = document.querySelectorAll('table.pane tr.build-row');
 
     // Loop through each row starting from the second row
-    for (let i = 1; i < rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
         const row = rows[i];
         let jobLink = row.querySelector('a.model-link.inside.build-link.display-name').href;
         jobLink = jobLink.endsWith("/") ? jobLink.slice(0, -1) : jobLink; // removing the taling slash if exsis.
