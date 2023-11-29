@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Delete Button for Jenkins Jobs
 // @namespace    https://rabin.io
-// @version      1.3.1
+// @version      1.4.0
 // @description  Adds a delete button to each row in a Jenkins pane table
 // @match        https://*/job/*/
 // @connect      self
@@ -11,8 +11,8 @@
 // @run-at       document-end
 // ==/UserScript==
 
-// Gist URL:    https://gist.github.com/rabin-io/72558495cbc1425eec2bbb57b798e78b
-// DownloadURL: https://gist.githubusercontent.com/rabin-io/72558495cbc1425eec2bbb57b798e78b/raw/jenkins-delete-job.user.js
+// URL:         https://github.com/rabin-io/userscripts/blob/dev/jenkins-delete-job.user.js
+// DownloadURL: https://github.com/rabin-io/userscripts/raw/dev/jenkins-delete-job.user.js
 
 (function() {
     'use strict';
@@ -34,12 +34,25 @@
         deleteButton.classList.add('jenkins-!-destructive-color'); // Add the class to the button
         deleteButton.textContent = 'Delete';
 
+        // Create a rebuild button
+        const rebuildButton = document.createElement('button');
+        // rebuildButton.classList.add('jenkins-!-destructive-color'); // Add the class to the button
+        rebuildButton.style.margin = '5px';
+        rebuildButton.textContent = 'Rebuild';
+
+        // Add a click event listener to the rebuild button
+        rebuildButton.addEventListener('click', () => {
+            //https://main-jenkins-csb-cnvqe.apps.ocp-c1.prod.psi.redhat.com/job/dev-deploy-cnv-4.15-on-aws-ipi-ryasharz/33/rebuild
+            const rebuildURL = `${jobLink}/rebuild`;
+            window.location.href = rebuildURL;
+        });
+
         // Add a click event listener to the delete button
         deleteButton.addEventListener('click', () => {
             const deleteURL = `${jobLink}/doDelete`; // Form the delete URL
             // {{API_SERVER}}/job/{{JOB_NAME}}/{{currentBuildId}}/doDelete/api/json/
-            //const deleteURL = `${jobLink}/doDelete/api/json/`; // Form the delete URL
-            console.log(deleteURL)
+            // const deleteURL = `${jobLink}/doDelete/api/json/`; // Form the delete URL
+            // console.log(deleteURL)
             // Send a POST request to the delete URL
             GM_xmlhttpRequest({
                 method: 'POST',
@@ -71,6 +84,6 @@
         const cell = row.querySelector('td');
         // Append the delete button to the cell
         cell.appendChild(deleteButton);
+        cell.appendChild(rebuildButton);
     }
 })();
-
