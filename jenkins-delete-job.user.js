@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Delete Button for Jenkins Jobs
 // @namespace    https://rabin.io
-// @version      1.4.0
+// @version      1.4.1
 // @description  Adds a delete button to each row in a Jenkins pane table
 // @match        https://*/job/*/
 // @connect      self
