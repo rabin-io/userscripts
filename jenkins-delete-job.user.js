@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Delete Button for Jenkins Jobs
 // @namespace    https://rabin.io
-// @version      1.4.1
+// @version      1.4.2
 // @description  Adds a delete button to each row in a Jenkins pane table
 // @match        https://*/job/*/
 // @connect      self
@@ -16,14 +16,35 @@
 
 (function() {
     'use strict';
-
     const baseURL = window.location.href; // Get the current page URL
+
+    // Select all div elements with the class "task"
+    //var tasksDiv = document.querySelectorAll('div.task'); //:nth-child(3) > span:nth-child(1) > a:nth-child(1) > span:nth-child(2)
+    // Create a new div element
+    //var newDiv = document.createElement('div');
+
+    //Add Job clone button to the job page
+    var jobH1Header = document.querySelector('h1');
+    var jobTitle = jobH1Header.textContent.split(' ', 2)[1]
+    var cloneButton = document.createElement('button');
+    cloneButton.classList.add('jenkins-button--primary', 'jenkins-button');
+    cloneButton.textContent = "Clone Job";
+    cloneButton.addEventListener('click', () => {
+        let cloneURL = `https://main-jenkins-csb-cnvqe.apps.ocp-c1.prod.psi.redhat.com/job/generate-test-job/parambuild/`;
+        let getParams = `ACCEPT=TRUE&JOB_NAME=${jobTitle}&REPO_OWNER=ryasharz&REPO_BRANCH=`;
+        cloneURL += `?${getParams}`;
+        window.location.href = cloneURL;
+    });
+    jobH1Header.parentNode.insertBefore(cloneButton, jobH1Header.nextSibling);
+
+
+
 
     // Find all table rows with the class "build-row" inside a table with the class "pane"
     const rows = document.querySelectorAll('table.pane tr.build-row');
 
     // Loop through each row starting from the second row
-    for (let i = 0; i < rows.length; i++) {
+    for (let i = 1; i < rows.length; i++) {
         const row = rows[i];
         let jobLink = row.querySelector('a.model-link.inside.build-link.display-name').href;
         jobLink = jobLink.endsWith("/") ? jobLink.slice(0, -1) : jobLink; // removing the taling slash if exsis.
