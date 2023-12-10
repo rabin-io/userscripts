@@ -17,6 +17,7 @@
 (function() {
     'use strict';
     const baseURL = window.location.href; // Get the current page URL
+    const hostname = new URL(baseURL).hostname;
 
     // Select all div elements with the class "task"
     //var tasksDiv = document.querySelectorAll('div.task'); //:nth-child(3) > span:nth-child(1) > a:nth-child(1) > span:nth-child(2)
@@ -30,7 +31,7 @@
     cloneButton.classList.add('jenkins-button--primary', 'jenkins-button');
     cloneButton.textContent = "Clone Job";
     cloneButton.addEventListener('click', () => {
-        let cloneURL = `https://main-jenkins-csb-cnvqe.apps.ocp-c1.prod.psi.redhat.com/job/generate-test-job/parambuild/`;
+        let cloneURL = `//${hostname}/job/generate-test-job/parambuild/`;
         let getParams = `ACCEPT=TRUE&JOB_NAME=${jobTitle}&REPO_OWNER=ryasharz&REPO_BRANCH=`;
         cloneURL += `?${getParams}`;
         window.location.href = cloneURL;
