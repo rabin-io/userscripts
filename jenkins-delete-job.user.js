@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Delete Button for Jenkins Jobs
 // @namespace    https://rabin.io
-// @version      1.4.3
+// @version      1.4.4
 // @description  Adds a delete button to each row in a Jenkins pane table
 // @match        https://*/job/*/
 // @connect      self
@@ -26,7 +26,7 @@
 
     //Add Job clone button to the job page
     var jobH1Header = document.querySelector('h1');
-    var jobTitle = jobH1Header.textContent.split(' ', 2)[1]
+    var jobTitle = jobH1Header.textContent.split(' ', 2)[0]
 
     var cloneButton = document.createElement('button');
     cloneButton.classList.add('jenkins-button--primary', 'jenkins-button');
