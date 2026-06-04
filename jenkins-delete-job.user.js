@@ -1,18 +1,19 @@
 // ==UserScript==
 // @name         Delete Button for Jenkins Jobs
 // @namespace    https://rabin.io
-// @version      1.4.3
+// @version      1.4.6
 // @description  Adds a delete button to each row in a Jenkins pane table
 // @match        https://*/job/*/
 // @connect      self
 // @sandbox      JavaScript
 // @grant        GM_xmlhttpRequest
+// @downloadURL  https://github.com/rabin-io/userscripts/raw/dev/jenkins-delete-job.user.js
+// @updateURL    https://github.com/rabin-io/userscripts/raw/dev/jenkins-delete-job.user.js
 // @icon         https://www.jenkins.io/favicon.ico
 // @run-at       document-end
 // ==/UserScript==
 
 // URL:         https://github.com/rabin-io/userscripts/blob/dev/jenkins-delete-job.user.js
-// DownloadURL: https://github.com/rabin-io/userscripts/raw/dev/jenkins-delete-job.user.js
 
 (function() {
     'use strict';
@@ -26,7 +27,7 @@
 
     //Add Job clone button to the job page
     var jobH1Header = document.querySelector('h1');
-    var jobTitle = jobH1Header.textContent.split(' ', 2)[1]
+    var jobTitle = jobH1Header.textContent.split(' ', 2)[0]
 
     var cloneButton = document.createElement('button');
     cloneButton.classList.add('jenkins-button--primary', 'jenkins-button');
@@ -75,8 +76,8 @@
 
         // Add a click event listener to the rebuild button
         rebuildButton.addEventListener('click', () => {
-            //https://main-jenkins-csb-cnvqe.apps.ocp-c1.prod.psi.redhat.com/job/dev-deploy-cnv-4.15-on-aws-ipi-ryasharz/33/rebuild
-            const rebuildURL = `${jobLink}/rebuild`;
+            //https://jenkins.io/job/dev-deploy-cnv-4.15-on-aws-ipi-ryasharz/33/rebuild
+            const rebuildURL = `${jobLink}/rebuild/parameterized`;
             window.location.href = rebuildURL;
         });
 
